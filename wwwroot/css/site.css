@@ -2,11 +2,11 @@ html {
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
   html {
     font-size: 16px;
   }
-}
+}*/
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
@@ -19,4 +19,51 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+/* Sidebar styling */
+.sidebar {
+    height: 80vh;
+    position: fixed;
+    left: 0;
+    padding-top: 1rem;
+}
+
+.sidebar .nav-link {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    color: #ccc;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.sidebar .nav-link.active {
+    background-color: #333;
+    color: #fff;
+}
+
+.sidebar .nav-link i {
+    margin-right: 10px;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
 }
