@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Inventory";
+}
+
+<div class="container text-center">
+    <h1>@ViewData["Title"]</h1>
+
+    <a role="button" class="btn btn-outline-success fw-semibold my-3" asp-controller="Inventory" asp-action="Add">Add New Inventory</a>
+
+    <table class="table table-bordered table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Processor</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <img src="../Images/MacBook_Pro_Placeholder.jpg" />
+                </td>
+                <td>MacBook Pro</td>
+                <td>1.7 GHz Quad-Core Intel</td>
+                <td>Available</td>
+                <td>
+                    <a role="button" class="btn btn-outline-warning fw-semibold my-3">Update</a>
+                    <a role="button" class="btn btn-outline-danger fw-semibold my-3">Remove</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
