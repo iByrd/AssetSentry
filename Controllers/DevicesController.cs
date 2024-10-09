@@ -33,27 +33,52 @@ namespace AssetSentry.Controllers
 
         }
 
-        // GET: Devices/Create
-        public IActionResult Create()
+        public IActionResult AddDevice()
         {
-            return View();
+            DeviceViewModel deviceViewModel = new DeviceViewModel();
+            deviceViewModel.Statuses = _context.Statuses.ToList();
+            return View(deviceViewModel);
         }
 
-        // POST: Devices/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Device device)
+        public IActionResult AddDevice(DeviceViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(device);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.Devices.Add(model.NewDevice);
+                _context.SaveChanges();
+                return RedirectToAction("DeviceList");
             }
-            return View(device);
+            else
+            {
+                model.Statuses = _context.Statuses.ToList();
+                return View(model);
+            }
         }
+
+        //This was part of the template... leaving now for ref if needed
+
+        //// GET: Devices/Create
+        //public IActionResult Add()
+        //{
+        //    return View();
+        //}
+
+        //// POST: Devices/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Name,Description")] Device device)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(device);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(device);
+        //}
 
         // GET: Devices/Edit/5
         public async Task<IActionResult> Edit(int? id)

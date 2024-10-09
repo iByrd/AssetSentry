@@ -1,0 +1,42 @@
+﻿@model DeviceViewModel
+
+<div class="container my-4 text-center rounded-4 px-4 py-3 bg-body-secondary border">
+
+    <h2>Add Device</h2>
+    <hr />
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-action="AddDevice" method="post">
+
+        <div class="form-floating mb-3">
+            <input asp-for="NewDevice.Name" class="form-control" placeholder="Enter a name">
+            <label asp-for="NewDevice.Name">Name</label>
+            <span asp-validation-for="NewDevice.Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="NewDevice.Description" class="form-control" placeholder="Enter a description">
+            <label asp-for="NewDevice.Description">Description</label>
+            <span asp-validation-for="NewDevice.Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <select asp-for="NewDevice.StatusId" class="form-control"
+                    asp-items="@(new SelectList(Model.Statuses, "StatusId", "Name"))">
+                <option value=""></option>
+            </select>
+            <label asp-for="NewDevice.StatusId">Status:</label>
+            <span asp-validation-for="NewDevice.StatusId" class="text-danger"></span>
+        </div>
+
+        <hr />
+
+        <div class="d-flex mb-3 gap-2">
+            <button type="submit" class="btn btn-primary">Add</button>
+            <a asp-action="DeviceList" class="btn btn-danger">Cancel</a>
+        </div>
+
+    </form>
+
+</div>
