@@ -8,6 +8,8 @@ namespace AssetSentry.Models
 
         public DbSet<Device> Devices { get; set; }
 
+        public DbSet<Status> Statuses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -18,8 +20,15 @@ namespace AssetSentry.Models
                     Id = 1,
                     Name = "TestDevice",
                     Description = "The old laptop found in a corner",
+                    StatusId = "overdue",
                 }
                 );
+
+            modelBuilder.Entity<Status>().HasData(
+                new Status { StatusId = "available", Name = "Available" },
+                new Status { StatusId = "rented", Name = "Rented" },
+                new Status { StatusId = "overdue", Name = "Overdue" }
+            );
         }
     }
 }

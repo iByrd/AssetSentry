@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssetSentry.Migrations
 {
     [DbContext(typeof(AssetSentryContext))]
-    [Migration("20241009185040_InitialCreate")]
+    [Migration("20241009204909_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -40,7 +40,13 @@ namespace AssetSentry.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("StatusId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("Devices");
 
@@ -49,8 +55,51 @@ namespace AssetSentry.Migrations
                         {
                             Id = 1,
                             Description = "The old laptop found in a corner",
-                            Name = "TestDevice"
+                            Name = "TestDevice",
+                            StatusId = "overdue"
                         });
+                });
+
+            modelBuilder.Entity("AssetSentry.Models.Status", b =>
+                {
+                    b.Property<string>("StatusId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StatusId");
+
+                    b.ToTable("Statuses");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusId = "available",
+                            Name = "Available"
+                        },
+                        new
+                        {
+                            StatusId = "rented",
+                            Name = "Rented"
+                        },
+                        new
+                        {
+                            StatusId = "overdue",
+                            Name = "Overdue"
+                        });
+                });
+
+            modelBuilder.Entity("AssetSentry.Models.Device", b =>
+                {
+                    b.HasOne("AssetSentry.Models.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Status");
                 });
 #pragma warning restore 612, 618
         }

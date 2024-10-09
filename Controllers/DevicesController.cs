@@ -13,31 +13,24 @@ namespace AssetSentry.Controllers
     {
         private AssetSentryContext _context;
 
-        public DevicesController(AssetSentryContext context) { _context = context; }
+        public DevicesController(AssetSentryContext context) => _context = context; 
 
-        public IActionResult Index()
+        public IActionResult DeviceList()
         {
-            List<Device> devices = _context.Devices.OrderBy(x => x.Name).ToList();
-            var model = new DeviceViewModel { Devices = devices };
-            return View(model);
-        }
+            //List<Device> devices = _context.Devices.OrderBy(x => x.Name).ToList();
+            //var model = new DeviceViewModel { Devices = devices };
+            //return View(model);
+            
+            DeviceViewModel deviceViewModel = new DeviceViewModel();
 
-        // GET: Devices/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            deviceViewModel.Statuses = _context.Statuses.ToList();
 
-            var device = await _context.Devices
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (device == null)
-            {
-                return NotFound();
-            }
+            IQueryable<Device> query = _context.Devices.Include(x => x.Status);
 
-            return View(device);
+            deviceViewModel.Devices = query.OrderBy(x => x.Id).ToList();
+
+            return View(deviceViewModel);
+
         }
 
         // GET: Devices/Create
