@@ -1,4 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using AssetSentry.Models;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AssetSentryContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AssetSentryContext") ?? throw new InvalidOperationException("Connection string 'AssetSentryContext' not found.")));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
