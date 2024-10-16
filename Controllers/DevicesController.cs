@@ -90,7 +90,7 @@ namespace AssetSentry.Controllers
         //}
 
         // GET: Devices/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> EditDevice(int? id)
         {
             if (id == null)
             {
@@ -110,7 +110,7 @@ namespace AssetSentry.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Device device)
+        public async Task<IActionResult> EditDevice(int id, [Bind("Id,Name,Description,StatusId")] Device device)
         {
             if (id != device.Id)
             {
@@ -135,7 +135,7 @@ namespace AssetSentry.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(DeviceList));
             }
             return View(device);
         }
