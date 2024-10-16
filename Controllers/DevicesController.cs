@@ -15,7 +15,7 @@ namespace AssetSentry.Controllers
 
         public DevicesController(AssetSentryContext context) => _context = context; 
 
-        public IActionResult DeviceList()
+        public IActionResult DeviceList(string searchString)
         {
             //List<Device> devices = _context.Devices.OrderBy(x => x.Name).ToList();
             //var model = new DeviceViewModel { Devices = devices };
@@ -28,6 +28,15 @@ namespace AssetSentry.Controllers
             IQueryable<Device> query = _context.Devices.Include(x => x.Status);
 
             deviceViewModel.Devices = query.OrderBy(x => x.Id).ToList();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var foundDevices = query.Where(s => s.Name!.ToUpper().Contains(searchString.ToUpper())
+                || s.Description!.ToUpper().Contains(searchString.ToUpper())
+                || s.Status.Name!.ToUpper().Contains(searchString.ToUpper())).ToList();
+
+                deviceViewModel.Devices = foundDevices;
+            }
 
             return View(deviceViewModel);
 

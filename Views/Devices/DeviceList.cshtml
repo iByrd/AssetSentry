@@ -8,6 +8,13 @@
 
     <a role="button" class="btn btn-outline-success fw-semibold my-3" asp-controller="Devices" asp-action="AddDevice">Add New Inventory</a>
 
+    <form asp-controller="Devices" asp-action="DeviceList" method="get">
+        <p>
+            <label>Search: <input type="text" name="SearchString" /></label>
+            <input type="submit" value="Filter" />
+        </p>
+    </form>
+
     <table class="table table-bordered table-striped table-dark">
         <thead>
             <tr>
@@ -27,7 +34,7 @@
                     <td>@device.Description</td>
                     <td>@device.Status.Name</td>
                     <td>
-                        <a role="button" class="btn btn-outline-warning fw-semibold my-3">Update</a>
+                        <a role="button" class="btn btn-outline-warning fw-semibold my-3">Edit</a>
                         <a role="button" class="btn btn-outline-danger fw-semibold my-3">Remove</a>
                     </td>
                 </tr>
