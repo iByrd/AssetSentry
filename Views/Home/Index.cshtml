@@ -3,5 +3,73 @@
 }
 
 <div class="container text-center">
-    <h1>Dashboard</h1>
+    <h1>@ViewData["Title"]</h1>
+    <div>
+        <canvas id="barChart" width="200" height="110" style="width:197px;height:110px;"></canvas>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    const ctx = document.getElementById('barChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['available', 'overdue', 'rented'],
+            datasets: [{
+                label: 'Number of Devices',
+                data: [12, 4, 6],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+@* <script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            typeof: "POST",
+            URL: "/GetTotalCountOfEachStatus",
+            data: "",
+            contextType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+        });
+
+        function OnSuccess(data) {
+            const barChart = document.getElementById('barChart');
+            var _data = data;
+            var _labels = ['available', 'overdue', 'rented'];
+            var colors = ['Green', 'Red', 'Orange'];
+
+            new Chart(barChart,
+                {
+                    type: 'bar',
+                    data: {
+                        labels: _labels,
+                        datasets: [{
+                            labels: 'Number of Devices',
+                            data: _data,
+                            borderWidth: 1,
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+        }
+    });
+</script> *@
