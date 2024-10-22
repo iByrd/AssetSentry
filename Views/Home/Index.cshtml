@@ -11,38 +11,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 <script type="text/javascript">
-    const ctx = document.getElementById('barChart');
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['available', 'overdue', 'rented'],
-            datasets: [{
-                label: 'Number of Devices',
-                data: [12, 4, 6],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>
-
-@* <script type="text/javascript">
     $(document).ready(function () {
         $.ajax({
-            typeof: "POST",
-            URL: "/GetTotalCountOfEachStatus",
+            type: "POST",
+            url: "/Home/GetTotalCountOfEachStatus",
             data: "",
-            contextType: "application/json; charset=utf-8",
+            contextType: "application/json; charset=utf8",
             dataType: "json",
             success: OnSuccess,
+            error: OnError
         });
 
         function OnSuccess(data) {
@@ -71,5 +50,9 @@
                     }
                 });
         }
+
+        function OnError(jqXHR) {
+            alert("Status code of: " + jqXHR.status);
+        }
     });
-</script> *@
+</script>
