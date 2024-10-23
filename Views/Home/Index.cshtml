@@ -5,7 +5,7 @@
 <div class="container text-center">
     <h1>@ViewData["Title"]</h1>
     <div>
-        <canvas id="barChart" width="200" height="110" style="width:197px;height:110px;"></canvas>
+        <canvas id="deviceStatusChart" width="100" height="300"></canvas>
     </div>
 </div>
 
@@ -25,26 +25,62 @@
         });
 
         function OnSuccess(data) {
-            const barChart = document.getElementById('barChart');
-            var _data = data;
-            var _labels = ['available', 'overdue', 'rented'];
-            var colors = ['Green', 'Red', 'Orange'];
+            const deviceStatusChart = document.getElementById('deviceStatusChart');
+            const _data = data;
+            const _labels = ['Available', 'Overdue', 'Rented'];
+            const colors = ['Green', 'Red', 'Orange'];
 
-            new Chart(barChart,
+            new Chart(deviceStatusChart,
                 {
                     type: 'bar',
                     data: {
                         labels: _labels,
                         datasets: [{
-                            labels: 'Number of Devices',
+                            label: 'Number of Devices',
                             data: _data,
                             borderWidth: 1,
+                            backgroundColor: 'rgb(255, 159, 64)'
                         }]
                     },
                     options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: 'white',
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            }
+                        },
                         scales: {
                             y: {
-                                beginAtZero: true
+                                grid: {
+                                    color: 'grey'
+                                },
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 18,
+                                    },
+                                    stepSize: 1,
+                                    beginAtZero: true
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: 'grey'
+                                },
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 18
+                                    },
+                                    stepSize: 1,
+                                    beginAtZero: true
+                                }
                             }
                         }
                     }
