@@ -23,7 +23,9 @@
         </div>
 
         <div class="form-floating mb-3">
-            <input asp-for="StatusId" class="form-control" />
+            <select asp-for="StatusId" class="form-select" asp-items="ViewBag.StatusList">
+                <option value="">-- Select Status --</option>
+            </select>
             <label asp-for="StatusId">Status:</label>
             <span asp-validation-for="StatusId" class="text-danger"></span>
         </div>

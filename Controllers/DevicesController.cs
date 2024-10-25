@@ -102,6 +102,9 @@ namespace AssetSentry.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.StatusList = new SelectList(_context.Statuses, "StatusId", "Name");
+
             return View(device);
         }
 
@@ -137,6 +140,8 @@ namespace AssetSentry.Controllers
                 }
                 return RedirectToAction(nameof(DeviceList));
             }
+
+            ViewBag.StatusList = new SelectList(_context.Statuses, "StatusId", "Name");
             return View(device);
         }
 
