@@ -1,8 +1,94 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
 <div class="container text-center">
-    <h1>Welcome to AssetSentry</h1>
-    <p class="lead">A modern application to manage and loan inventory.</p>
+    <h1>@ViewData["Title"]</h1>
+    <div>
+        <canvas id="deviceStatusChart" width="100" height="300"></canvas>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetTotalCountOfEachStatus",
+            data: "",
+            contextType: "application/json; charset=utf8",
+            dataType: "json",
+            success: OnSuccess,
+            error: OnError
+        });
+
+        function OnSuccess(data) {
+            const deviceStatusChart = document.getElementById('deviceStatusChart');
+            const _data = data;
+            const _labels = ['Available', 'Overdue', 'Rented'];
+            const colors = ['Green', 'Red', 'Orange'];
+
+            new Chart(deviceStatusChart,
+                {
+                    type: 'bar',
+                    data: {
+                        labels: _labels,
+                        datasets: [{
+                            label: 'Number of Devices',
+                            data: _data,
+                            borderWidth: 1,
+                            backgroundColor: 'rgb(255, 159, 64)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: 'white',
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                grid: {
+                                    color: 'grey'
+                                },
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 18,
+                                    },
+                                    stepSize: 1,
+                                    beginAtZero: true
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: 'grey'
+                                },
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 18
+                                    },
+                                    stepSize: 1,
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    }
+                });
+        }
+
+        function OnError(jqXHR) {
+            alert("Status code of: " + jqXHR.status);
+        }
+    });
+</script>
