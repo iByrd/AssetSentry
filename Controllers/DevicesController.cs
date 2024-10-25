@@ -159,7 +159,7 @@ namespace AssetSentry.Controllers
         }
 
         // POST: Devices/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -170,7 +170,7 @@ namespace AssetSentry.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("DeviceList");
         }
 
         private bool DeviceExists(int id)
