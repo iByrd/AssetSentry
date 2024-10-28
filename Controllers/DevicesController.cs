@@ -15,7 +15,7 @@ namespace AssetSentry.Controllers
 
         public DevicesController(AssetSentryContext context) => _context = context; 
 
-        public IActionResult DeviceList()
+        public IActionResult DeviceList(string searchString)
         {
             //List<Device> devices = _context.Devices.OrderBy(x => x.Name).ToList();
             //var model = new DeviceViewModel { Devices = devices };
@@ -28,6 +28,15 @@ namespace AssetSentry.Controllers
             IQueryable<Device> query = _context.Devices.Include(x => x.Status);
 
             deviceViewModel.Devices = query.OrderBy(x => x.Id).ToList();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var foundDevices = query.Where(s => s.Name!.ToUpper().Contains(searchString.ToUpper())
+                || s.Description!.ToUpper().Contains(searchString.ToUpper())
+                || s.Status.Name!.ToUpper().Contains(searchString.ToUpper())).ToList();
+
+                deviceViewModel.Devices = foundDevices;
+            }
 
             return View(deviceViewModel);
 
@@ -81,7 +90,7 @@ namespace AssetSentry.Controllers
         //}
 
         // GET: Devices/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> EditDevice(int? id)
         {
             if (id == null)
             {
@@ -93,6 +102,9 @@ namespace AssetSentry.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.StatusList = new SelectList(_context.Statuses, "StatusId", "Name");
+
             return View(device);
         }
 
@@ -101,7 +113,7 @@ namespace AssetSentry.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Device device)
+        public async Task<IActionResult> EditDevice(int id, [Bind("Id,Name,Description,StatusId")] Device device)
         {
             if (id != device.Id)
             {
@@ -126,8 +138,10 @@ namespace AssetSentry.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(DeviceList));
             }
+
+            ViewBag.StatusList = new SelectList(_context.Statuses, "StatusId", "Name");
             return View(device);
         }
 
@@ -150,7 +164,7 @@ namespace AssetSentry.Controllers
         }
 
         // POST: Devices/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -161,7 +175,7 @@ namespace AssetSentry.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("DeviceList");
         }
 
         private bool DeviceExists(int id)
