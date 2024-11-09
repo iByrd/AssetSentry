@@ -12,7 +12,7 @@ namespace AssetSentry.Controllers
         {
             _logger = logger;
         }
-        public IActionResult Index()
+        public IActionResult LoanList()
         {
             return View();
         }
