@@ -13,7 +13,7 @@ namespace AssetSentry.Controllers
     {
         private AssetSentryContext _context;
 
-        public DevicesController(AssetSentryContext context) => _context = context; 
+        public DevicesController(AssetSentryContext context) => _context = context;
 
         public IActionResult DeviceList(string searchString)
         {
