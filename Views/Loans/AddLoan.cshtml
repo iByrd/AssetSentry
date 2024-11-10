@@ -1,0 +1,48 @@
+﻿
+<div class="container my-4 text-center rounded-4 px-4 py-3 bg-body-secondary border">
+
+    <h2>Add Loan</h2>
+    <hr />
+
+    <div class="text-danger"></div>
+
+    <div class="form-floating mb-3">
+        <input class="form-control" placeholder="Enter the Device's name">
+        <label>Device</label>
+        <span class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input class="form-control" placeholder="Enter the student's name">
+        <label>Student</label>
+        <span class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input class="form-control" placeholder="Enter the starting date" type="date">
+        <label>Start Date</label>
+        <span class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input class="form-control" placeholder="Enter the ending date" type="date">
+        <label>End Date</label>
+        <span class="text-danger"></span>
+    </div>
+
+    <label>Status:</label>
+    <select class="form-floating mb-3">
+        <option value="true">Active</option>
+        <option value="false">Inactive</option>
+    </select>
+    <span class="text-danger"></span>
+
+    <hr />
+
+    <div class="d-flex mb-3 gap-2">
+        <button type="submit" class="btn btn-primary">Add</button>
+        <a asp-controller="Loans" asp-action="LoanList" class="btn btn-danger">Cancel</a>
+    </div>
+
+
+</div>

@@ -1,5 +1,6 @@
 ﻿using AssetSentry.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace AssetSentry.Controllers
@@ -13,6 +14,11 @@ namespace AssetSentry.Controllers
             _logger = logger;
         }
         public IActionResult LoanList()
+        {
+            return View();
+        }
+
+        public IActionResult AddLoan()
         {
             return View();
         }
