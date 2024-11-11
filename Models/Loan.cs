@@ -6,7 +6,7 @@ namespace AssetSentry.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter a student.")]
+        [Required(ErrorMessage = "Please enter a student's name.")]
         public string Student { get; set; }
 
         [Required(ErrorMessage = "Please enter a start date.")]
@@ -18,6 +18,7 @@ namespace AssetSentry.Models
         public bool IsActive { get; set; }
 
         public int DeviceId { get; set; }
-        public Device Device { get; set; }
+
+        public Device Device { get; set; } = null!;
     }
 }
