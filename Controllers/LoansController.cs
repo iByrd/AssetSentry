@@ -7,15 +7,29 @@ namespace AssetSentry.Controllers
 {
     public class LoansController : Controller
     {
-        private readonly ILogger<LoansController> _logger;
+        private AssetSentryContext _context;
 
-        public LoansController(ILogger<LoansController> logger)
+        public LoansController(AssetSentryContext context) => _context = context;
+
+        public IActionResult LoanList(string searchString)
         {
-            _logger = logger;
-        }
-        public IActionResult LoanList()
-        {
-            return View();
+            LoanViewModel loanViewModel = new LoanViewModel();
+
+            IQueryable<Device> deviceQuery = _context.Devices.Include(x => x.Status);
+            loanViewModel.Devices = deviceQuery.OrderBy(x => x.Id).ToList();
+
+            IQueryable<Loan> loanQuery = _context.Loans.Include(x => x.Device);
+            loanViewModel.Loans = loanQuery.OrderBy(x => x.Id).ToList();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var foundLoans = loanViewModel.Loans.Where(s => s.Device.Name!.ToUpper().Contains(searchString.ToUpper())
+                || s.Student!.ToUpper().Contains(searchString.ToUpper())).ToList();
+
+                loanViewModel.Loans = foundLoans;
+            }
+
+            return View(loanViewModel);
         }
 
         public IActionResult AddLoan()

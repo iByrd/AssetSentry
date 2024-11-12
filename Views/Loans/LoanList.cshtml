@@ -1,37 +1,50 @@
-﻿@{
+﻿@model LoanViewModel
+@{
     ViewData["Title"] = "Active Loans";
 }
 
 <div class="container text-center">
     <h1>@ViewData["Title"]</h1>
 
-    <a role="button" class="btn btn-outline-success fw-semibold my-3">
-        New Loan
-    </a>
+    <a role="button" class="btn btn-outline-success fw-semibold my-3">New Loan</a>
+
+    <form asp-controller="Loans" asp-action="LoanList" method="get">
+        <p>
+            <label>Search: <input type="text" name="SearchString" /></label>
+            <input type="submit" value="Filter" />
+        </p>
+    </form>
 
     <table class="table table-dark table-hover" style="border-collapse: separate; border-spacing: 0; width: 100%;">
-        <thead>
+        <thead style="background-color: #343a40; color: #ffc107;">
             <tr>
-                <th scope="col">Device</th>
-                <th scope="col">Student</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Status</th>
-                <th scope="col">Actions</th>
+                <th scope="col" style="padding: 15px; font-weight: 600; text-align: center;">ID</th>
+                <th scope="col" style="padding: 15px; font-weight: 600; text-align: center;">Device</th>
+                <th scope="col" style="padding: 15px; font-weight: 600; text-align: center;">Student</th>
+                <th scope="col" style="padding: 15px; font-weight: 600; text-align: center;">Start Date</th>
+                <th scope="col" style="padding: 15px; font-weight: 600; text-align: center;">End Date</th>
+                <th scope="col" style="padding: 15px; font-weight: 600; text-align: center;">Active/Inactive</th>
+                <th scope="col" style="padding: 15px; font-weight: 600; text-align: center;">Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>MacBook Pro</td>
-                <td>Logan Conley</td>
-                <td>10/6/2024</td>
-                <td>10/31/2024</td>
-                <td>Available</td>
-                <td>
-                    <a role="button" class="btn btn-outline-warning fw-semibold my-3">Update</a>
-                    <a role="button" class="btn btn-outline-danger fw-semibold my-3">End</a>
-                </td>
-            </tr>
+            @foreach (Loan loan in Model.Loans)
+            {
+                <tr style="transition: background-color 0.3s ease;">
+                    <td style="padding: 10px; text-align: center;">@loan.Id</td>
+                    <td style="padding: 10px; text-align: center;">@loan.Device.Name</td>
+                    <td style="padding: 10px; text-align: center;">@loan.Student</td>
+                    <td style="padding: 10px; text-align: center;">@loan.StartDate.ToString("MM/dd/yyyy")</td>
+                    <td style="padding: 10px; text-align: center;">@loan.EndDate.ToString("MM/dd/yyyy")</td>
+                    <td style="padding: 10px; text-align: center;">@loan.IsActive</td>
+                    <td style="padding: 10px; text-align: center;">
+                        <div class="d-inline-flex gap-2">
+                            <a role="button" class="btn btn-outline-warning fw-semibold d-inline-flex align-items-center py-2 px-3">Edit</a>
+                            <a role="button" class="btn btn-outline-danger fw-semibold d-inline-flex align-items-center py-2 px-3">Cancel</a>
+                        </div>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
