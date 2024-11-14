@@ -1,5 +1,7 @@
 ﻿using AssetSentry.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
@@ -32,9 +34,31 @@ namespace AssetSentry.Controllers
             return View(loanViewModel);
         }
 
-        public IActionResult AddLoan()
+        public IActionResult AddLoan(int deviceId)
         {
-            return View();
+            LoanViewModel loanViewModel = new LoanViewModel();
+            loanViewModel.NewLoan.DeviceId = deviceId;
+            loanViewModel.NewLoan.Device = _context.Devices.Single(x => x.Id == deviceId);
+            return View(loanViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult AddLoan(LoanViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Loans.Add(model.NewLoan);
+                Device loanDevice = _context.Devices.Single(x => x.Id == model.NewLoan.DeviceId);
+                loanDevice.StatusId = "rented";
+
+                _context.SaveChanges();
+                return RedirectToAction("LoanList");
+            }
+            else
+            {
+                model.Devices = _context.Devices.ToList();
+                return View(model);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

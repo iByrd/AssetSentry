@@ -19,6 +19,6 @@ namespace AssetSentry.Models
 
         public int DeviceId { get; set; }
 
-        public Device Device { get; set; } = null!;
+        public Device? Device { get; set; } = null!;
     }
 }

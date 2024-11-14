@@ -43,7 +43,7 @@
                             </form>
                             @if (device.Status.Name == "Available")
                             {
-                                <a role="button" class="btn btn-outline-success fw-semibold d-inline-flex align-items-center py-2 px-3" asp-controller="Loans" asp-action="AddLoan">Loan Device</a>
+                                <a role="button" class="btn btn-outline-success fw-semibold d-inline-flex align-items-center py-2 px-3" asp-controller="Loans" asp-action="AddLoan" asp-route-DeviceId=@device.Id>Loan Device</a>
                             }
                         </div>
                     </td>
