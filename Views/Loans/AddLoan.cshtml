@@ -33,11 +33,12 @@
             <span asp-validation-for="NewLoan.EndDate" class="text-danger"></span>
         </div>
 
-        <div class="form-floating mb-3">
-            <label asp-for="NewLoan.IsActive">Status:</label><select asp-for="NewLoan.IsActive" class="form-floating mb-3">
+        <div class="form-floating mb-3">  
+            <select asp-for="NewLoan.IsActive" class="form-select">
                 <option value=true>Active</option>
                 <option value=false>Inactive</option>
             </select>
+            <label asp-for="NewLoan.IsActive">Status:</label>
             <span class="text-danger"></span>
         </div>
 
