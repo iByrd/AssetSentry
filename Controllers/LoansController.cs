@@ -17,10 +17,10 @@ namespace AssetSentry.Controllers
         {
             LoanViewModel loanViewModel = new LoanViewModel();
 
-            IQueryable<Device> deviceQuery = _context.Devices.Include(x => x.Status);
+            IQueryable<Device> deviceQuery = _context.Devices.Include(x => x.Status).AsNoTracking();
             loanViewModel.Devices = deviceQuery.OrderBy(x => x.Id).ToList();
 
-            IQueryable<Loan> loanQuery = _context.Loans.Include(x => x.Device);
+            IQueryable<Loan> loanQuery = _context.Loans.Include(x => x.Device).AsNoTracking();
             loanViewModel.Loans = loanQuery.OrderBy(x => x.Id).ToList();
 
             if (!String.IsNullOrEmpty(searchString))
@@ -49,7 +49,11 @@ namespace AssetSentry.Controllers
             {
                 _context.Loans.Add(model.NewLoan);
                 Device loanDevice = _context.Devices.Single(x => x.Id == model.NewLoan.DeviceId);
-                loanDevice.StatusId = "rented";
+                if (model.NewLoan.Device.StatusId == "rented")
+                {
+                    loanDevice.StatusId = "rented";
+                }
+              
 
                 _context.SaveChanges();
                 return RedirectToAction("LoanList");

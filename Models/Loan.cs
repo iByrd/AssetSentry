@@ -17,8 +17,9 @@ namespace AssetSentry.Models
 
         public bool IsActive { get; set; }
 
+        [Required]
         public int DeviceId { get; set; }
 
-        public Device? Device { get; set; } = null!;
+        public Device? Device { get; set; }
     }
 }

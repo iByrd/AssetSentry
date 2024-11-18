@@ -37,8 +37,7 @@ namespace AssetSentry.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_DeviceId",
                 table: "Loans",
-                column: "DeviceId",
-                unique: true);
+                column: "DeviceId");
         }
 
         /// <inheritdoc />
