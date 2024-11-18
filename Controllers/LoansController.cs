@@ -65,6 +65,20 @@ namespace AssetSentry.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult EndLoan(int id)
+        {
+            var loan = _context.Loans.Find(id);
+            if (loan != null)
+            {
+                loan.IsActive = false;
+                _context.Loans.Update(loan);
+            }
+
+            _context.SaveChanges();
+            return RedirectToAction("LoanList");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
