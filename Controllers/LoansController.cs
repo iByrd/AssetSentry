@@ -49,7 +49,7 @@ namespace AssetSentry.Controllers
             {
                 _context.Loans.Add(model.NewLoan);
                 Device loanDevice = _context.Devices.Single(x => x.Id == model.NewLoan.DeviceId);
-                if (model.NewLoan.Device.StatusId == "rented")
+                if (model.NewLoan.IsActive == true)
                 {
                     loanDevice.StatusId = "rented";
                 }
@@ -72,6 +72,9 @@ namespace AssetSentry.Controllers
             if (loan != null)
             {
                 loan.IsActive = false;
+                var deviceIdToChange = loan.DeviceId;
+                var device = _context.Devices.Find(deviceIdToChange);
+                device.StatusId = "available";
                 _context.Loans.Update(loan);
             }
 
