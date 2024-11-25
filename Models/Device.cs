@@ -16,5 +16,7 @@ namespace AssetSentry.Models
         public string StatusId { get; set; }
 
         public Status? Status { get; set; }
+
+        public Loan? Loan { get; set; }
     }
 }

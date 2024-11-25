@@ -1,0 +1,54 @@
+﻿@model LoanViewModel
+
+<div class="container my-4 text-center rounded-4 px-4 py-3 bg-body-secondary border">
+
+    <h2>Create Loan for @Model.NewLoan.Device.Name</h2>
+    <hr />
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-action="AddLoan" method="post">
+
+        <div class="form-floating mb-3">
+            <input asp-for="NewLoan.DeviceId" class="form-control" value=@Model.NewLoan.DeviceId readonly>
+            <label asp-for="NewLoan.DeviceId">Device ID</label>
+            <span asp-validation-for="NewLoan.DeviceId" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="NewLoan.Student" class="form-control" placeholder="Enter the student's name">
+            <label asp-for="NewLoan.Student">Student</label>
+            <span asp-validation-for="NewLoan.Student" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="NewLoan.StartDate" class="form-control" type="date" value="@DateTime.Today">
+            <label asp-for="NewLoan.StartDate">Start Date</label>
+            <span asp-validation-for="NewLoan.StartDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="NewLoan.EndDate" class="form-control" type="date" value="@DateTime.Today">
+            <label asp-for="NewLoan.EndDate">End Date</label>
+            <span asp-validation-for="NewLoan.EndDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">  
+            <select asp-for="NewLoan.IsActive" class="form-select">
+                <option value=true>Active</option>
+                <option value=false>Inactive</option>
+            </select>
+            <label asp-for="NewLoan.IsActive">Status:</label>
+            <span class="text-danger"></span>
+        </div>
+
+        <hr />
+
+        <div class="d-flex mb-3 gap-2">
+            <button type="submit" class="btn btn-primary">Add</button>
+            <a asp-controller="Devices" asp-action="DeviceList" class="btn btn-danger">Cancel</a>
+        </div>
+
+    </form>
+
+</div>

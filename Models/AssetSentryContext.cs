@@ -10,6 +10,8 @@ namespace AssetSentry.Models
 
         public DbSet<Status> Statuses { get; set; }
 
+        public DbSet<Loan> Loans { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
