@@ -14,6 +14,9 @@
     <div class="top-row ps-3 navbar navbar-dark border-bottom">
         <div class="container-fluid">
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">AssetSentry</a>
+            <div class="float-right">
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
         </div>
     </div>
 
