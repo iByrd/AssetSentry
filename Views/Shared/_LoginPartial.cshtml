@@ -1,6 +1,6 @@
 ﻿@if (Context.User.Identity.Name != null) {
     <form asp-controller="Accounts" asp-action="LogOut" method="post" id="logoutForm" class="navbar-right">
-        Hello @Context.User.Identity.Name!
+        Hello, @Context.User.Identity.Name!
         <button type="submit" class="nav-link text-white">Log Off</button>
     </form>
 }
