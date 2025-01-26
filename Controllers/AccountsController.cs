@@ -69,8 +69,8 @@ namespace AssetSentry.Controllers
                     //Success, create cookie
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, user.Email),
-                        new Claim("Name", user.FirstName),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Name, user.FirstName),
                         new Claim(ClaimTypes.Role, "User")
                     };
 
@@ -90,7 +90,7 @@ namespace AssetSentry.Controllers
         public IActionResult LogOut()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
