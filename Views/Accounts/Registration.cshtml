@@ -4,55 +4,58 @@
     ViewData["Title"] = "Registration";
 }
 
-<h1>Registration</h1>
+<div class="container my-4 text-center rounded-4 px-4 py-3 bg-body-secondary border">
+    <h2>@ViewData["Title"]</h2>
+    <hr />
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Registration">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @if (ViewBag.Message != null)
-            {
-                <div class="form-group" style="color: green;">@ViewBag.Message</div>
-            }
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Register" class="btn btn-primary" />
-            </div>
-        </form>
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-action="Registration" method="post">
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="form-group" style="color: green;">@ViewBag.Message</div>
+        }
+        <div class="form-floating mb-3">
+            <input asp-for="FirstName" class="form-control" placeholder="Enter your first name">
+            <label asp-for="FirstName">First Name</label>
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="LastName" class="form-control" placeholder="Enter your last name">
+            <label asp-for="LastName">Last Name</label>
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="Email" class="form-control" placeholder="Enter your email">
+            <label asp-for="Email">Email</label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="Password" class="form-control" placeholder="Enter your password">
+            <label asp-for="Password">Password</label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Re-enter your password">
+            <label asp-for="ConfirmPassword">Re-enter Password</label>
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <hr />
+
+        <div class="d-flex mb-3 gap-2">
+            <button type="submit" class="btn btn-primary">Register</button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-danger">Cancel</a>
+        </div>
+
+    </form>
+
+    <div>
+        Already have a login? <a asp-action="Login">Go To Login</a>
     </div>
 </div>
-
-<div>
-    Already have a login? <a asp-action="Login">Go To Login</a>
-</div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
