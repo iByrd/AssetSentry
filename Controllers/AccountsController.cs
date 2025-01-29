@@ -99,5 +99,20 @@ namespace AssetSentry.Controllers
             ViewBag.Name = HttpContext.User.Identity.Name;
             return View();
         }
+
+        // POST: Devices/Delete/5
+        [HttpPost, ActionName("DeleteConfirmed")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var account = await _context.UserAccounts.FindAsync(id);
+            if (account != null)
+            {
+                _context.UserAccounts.Remove(account);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("AccountList");
+        }
     }
 }

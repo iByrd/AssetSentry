@@ -4,6 +4,7 @@
     ViewData["Title"] = "AccountList";
 }
 
+<div class="container">
 <h1>AccountList</h1>
 
 <p>
@@ -41,8 +42,16 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
+                        <form asp-action="DeleteConfirmed" method="post">
+                            <input type="hidden" name="@nameof(UserAccount.Id)" value="@item.Id" />
+                            <button type="submit" class="btn btn-outline-danger fw-semibold d-inline-flex align-items-center py-2 px-3"
+                                    onclick="return confirm('Are you sure you want to end this account?');">
+                                Remove
+                            </button>
+                        </form>
             </td>
         </tr>
 }
     </tbody>
 </table>
+</div>
