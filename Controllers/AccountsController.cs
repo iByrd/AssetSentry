@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace AssetSentry.Controllers
 {
@@ -24,6 +26,21 @@ namespace AssetSentry.Controllers
             return View();
         }
 
+        public static byte[] GetHash(string inputString)
+        {
+            using (HashAlgorithm algorithm = SHA256.Create())
+                return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+        }
+
+        public static string GetHashString(string inputString)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in GetHash(inputString))
+                sb.Append(b.ToString("X2"));
+
+            return sb.ToString();
+        }
+
         [HttpPost]
         public IActionResult Registration(RegistrationViewModel model)
         {
@@ -33,7 +50,7 @@ namespace AssetSentry.Controllers
                 account.FirstName = model.FirstName;
                 account.LastName = model.LastName;
                 account.Email = model.Email;
-                account.Password = model.Password;
+                account.Password = GetHashString(model.Password);
                 if (model.IsAdmin == "true")
                 {
                     account.IsAdmin = true;
@@ -70,7 +87,7 @@ namespace AssetSentry.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _context.UserAccounts.Where(x => x.Email == model.Email && x.Password == model.Password).FirstOrDefault();
+                var user = _context.UserAccounts.Where(x => x.Email == model.Email && x.Password == GetHashString(model.Password)).FirstOrDefault();
                 if (user != null)
                 {
                     //Success, create cookie
