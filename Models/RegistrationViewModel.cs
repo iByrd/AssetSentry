@@ -24,5 +24,7 @@ namespace AssetSentry.Models
 
         [Compare("Password", ErrorMessage = "Confirmation password does not match password.")]
         public string ConfirmPassword { get; set; }
+
+        public string IsAdmin { get; set; }
     }
 }

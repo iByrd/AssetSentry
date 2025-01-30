@@ -34,6 +34,13 @@ namespace AssetSentry.Controllers
                 account.LastName = model.LastName;
                 account.Email = model.Email;
                 account.Password = model.Password;
+                if (model.IsAdmin == "true")
+                {
+                    account.IsAdmin = true;
+                } else
+                {
+                    account.IsAdmin = false;
+                }
 
                 try
                 {
@@ -67,12 +74,20 @@ namespace AssetSentry.Controllers
                 if (user != null)
                 {
                     //Success, create cookie
-                    var claims = new List<Claim>
+                    var claims = new List<Claim> 
                     {
                         new Claim(ClaimTypes.Email, user.Email),
                         new Claim(ClaimTypes.Name, user.FirstName),
-                        new Claim(ClaimTypes.Role, "User")
+                        //new Claim(ClaimTypes.Role, "User")
                     };
+                    //check if user is admin
+                    if (user.IsAdmin)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                    } else
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, "User"));
+                    }
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));

@@ -24,5 +24,8 @@ namespace AssetSentry.Models
 
         [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Please choose if admin or not.")]
+        public bool IsAdmin { get; set; }
     }
 }

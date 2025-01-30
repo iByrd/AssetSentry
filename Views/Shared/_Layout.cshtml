@@ -46,11 +46,14 @@
                                 <i class="bi bi-shield-check"></i> Privacy
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Accounts" asp-action="AccountList">
-                                <i class="bi bi-gear"></i> Settings
-                            </a>
-                        </li>
+                        @if (Context.User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Accounts" asp-action="AccountList">
+                                    <i class="bi bi-gear"></i> Settings
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </nav>
