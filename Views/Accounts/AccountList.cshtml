@@ -25,7 +25,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAdmin)
+            </th>
+            <th>
+                Delete Account
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -42,13 +47,18 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
-                        <form asp-action="DeleteConfirmed" method="post">
-                            <input type="hidden" name="@nameof(UserAccount.Id)" value="@item.Id" />
-                            <button type="submit" class="btn btn-outline-danger fw-semibold d-inline-flex align-items-center py-2 px-3"
-                                    onclick="return confirm('Are you sure you want to end this account?');">
-                                Remove
-                            </button>
-                        </form>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAdmin)
+            </td>
+            <td>
+                <form asp-action="DeleteConfirmed" method="post">
+                    <input type="hidden" name="@nameof(UserAccount.Id)" value="@item.Id" />
+                    <button type="submit" class="btn btn-outline-danger fw-semibold d-inline-flex align-items-center py-2 px-3"
+                            onclick="return confirm('Are you sure you want to end this account?');">
+                        Remove
+                    </button>
+                </form>
             </td>
         </tr>
 }

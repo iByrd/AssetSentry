@@ -16,6 +16,7 @@ namespace AssetSentry.Controllers
 
         public AccountsController(AssetSentryContext context) => _context = context;
 
+        [Authorize(Policy = "AdminOnly")]
         public IActionResult AccountList()
         {
             return View(_context.UserAccounts.ToList());
@@ -26,6 +27,7 @@ namespace AssetSentry.Controllers
             return View();
         }
 
+        // source: https://stackoverflow.com/questions/3984138/hash-string-in-c-sharp
         public static byte[] GetHash(string inputString)
         {
             using (HashAlgorithm algorithm = SHA256.Create())
