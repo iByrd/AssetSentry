@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AssetSentry.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AssetSentry.Controllers
 {
@@ -15,6 +16,7 @@ namespace AssetSentry.Controllers
 
         public DevicesController(AssetSentryContext context) => _context = context;
 
+        [Authorize]
         public IActionResult DeviceList(string searchString)
         {
             //List<Device> devices = _context.Devices.OrderBy(x => x.Name).ToList();
@@ -42,6 +44,7 @@ namespace AssetSentry.Controllers
 
         }
 
+        [Authorize]
         public IActionResult AddDevice()
         {
             DeviceViewModel deviceViewModel = new DeviceViewModel();
@@ -90,6 +93,7 @@ namespace AssetSentry.Controllers
         //}
 
         // GET: Devices/Edit/5
+        [Authorize]
         public async Task<IActionResult> EditDevice(int? id)
         {
             if (id == null)
@@ -146,6 +150,7 @@ namespace AssetSentry.Controllers
         }
 
         // GET: Devices/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
