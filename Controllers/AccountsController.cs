@@ -22,6 +22,7 @@ namespace AssetSentry.Controllers
             return View(_context.UserAccounts.ToList());
         }
 
+        [Authorize(Policy = "AdminOnly")]
         public IActionResult Registration()
         {
             return View();
@@ -67,7 +68,7 @@ namespace AssetSentry.Controllers
                     _context.SaveChanges();
 
                     ModelState.Clear();
-                    ViewBag.Message = $"{account.FirstName} {account.LastName} registered successfully. Please login.";
+                    ViewBag.Message = $"{account.FirstName} {account.LastName} registered successfully.";
                 }
                 catch (DbUpdateException ex)
                 {
