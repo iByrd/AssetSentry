@@ -1,4 +1,5 @@
 ﻿using AssetSentry.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
@@ -13,6 +14,7 @@ namespace AssetSentry.Controllers
 
         public LoansController(AssetSentryContext context) => _context = context;
 
+        [Authorize]
         public IActionResult LoanList(string searchString)
         {
             LoanViewModel loanViewModel = new LoanViewModel();
@@ -34,6 +36,7 @@ namespace AssetSentry.Controllers
             return View(loanViewModel);
         }
 
+        [Authorize]
         public IActionResult AddLoan(int deviceId)
         {
             LoanViewModel loanViewModel = new LoanViewModel();

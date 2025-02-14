@@ -1,0 +1,79 @@
+﻿@model AssetSentry.Models.RegistrationViewModel
+
+@{
+    ViewData["Title"] = "Registration";
+    Layout = "_LimitedLayout";
+}
+
+<div class="container my-4 text-center rounded-4 px-4 py-3 bg-body-secondary border">
+    <h1>Welcome to AssetSentry</h1>
+    <br />
+    <h2>@ViewData["Title"]</h2>
+    <hr />
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-action="Registration" method="post">
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="form-group" style="color: green;">@ViewBag.Message</div>
+        }
+        <div class="form-floating mb-3">
+            <input asp-for="FirstName" class="form-control" placeholder="Enter your first name">
+            <label asp-for="FirstName">First Name</label>
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="LastName" class="form-control" placeholder="Enter your last name">
+            <label asp-for="LastName">Last Name</label>
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="Email" class="form-control" placeholder="Enter your email">
+            <label asp-for="Email">Email</label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="Password" class="form-control" placeholder="Enter your password">
+            <label asp-for="Password">Password</label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Re-enter your password">
+            <label asp-for="ConfirmPassword">Re-enter Password</label>
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        
+        <div class="form-check text-start">
+            <input class="form-check-input" type="checkbox" name="IsAdmin" id="roleOption1" asp-for="IsAdmin" value="true">
+            <label class="form-check-label" for="roleOption1">
+                Admin Role
+            </label>
+        </div>
+        @* <div class="form-check text-start">
+            <input class="form-check-input" type="radio" name="roleOption" id="roleOption2" asp-for="IsAdmin" value="false" checked>
+            <label class="form-check-label" for="roleOption2">
+                User Role
+            </label>
+        </div> *@
+        
+        
+
+        <hr />
+
+        <div class="d-flex mb-3 gap-2">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+
+    </form>
+
+    <div>
+        Already have a login? <a asp-action="Login">Go To Login</a>
+    </div>
+</div>

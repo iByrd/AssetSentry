@@ -1,0 +1,41 @@
+﻿@model AssetSentry.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LimitedLayout";
+}
+
+<div class="container my-4 text-center rounded-4 px-4 py-3 bg-body-secondary border">
+    <h1>Welcome to AssetSentry</h1>
+    <br />
+    <h2>@ViewData["Title"]</h2>
+    <hr />
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-action="Login" method="post">
+
+        <div class="form-floating mb-3">
+            <input asp-for="Email" class="form-control" placeholder="Enter your email">
+            <label asp-for="Email">Email</label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="Password" class="form-control" placeholder="Enter a password">
+            <label asp-for="Password">Password</label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <hr />
+
+        <div class="d-flex mb-3 gap-2">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+
+    </form>
+
+    <div>
+        Don't have an account? <a asp-action="Registration">Go to Registration</a>
+    </div>
+</div>

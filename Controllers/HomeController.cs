@@ -1,4 +1,5 @@
 using AssetSentry.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -11,11 +12,13 @@ namespace AssetSentry.Controllers
 
         public HomeController(AssetSentryContext context) => _context = context;
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
