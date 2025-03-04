@@ -5,7 +5,7 @@
     <h2>Create Loan for @Model.NewLoan.Device.Name</h2>
     <hr />
 
-    <div asp-validation-summary="All" class="text-danger"></div>
+    @* <div asp-validation-summary="All" class="text-danger"></div> *@
 
     <form asp-action="AddLoan" method="post">
 
@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-floating mb-3">
-            <input asp-for="NewLoan.Email" class="form-control" placeholder="Enter the student's email">
+            <input asp-for="NewLoan.Email" class="form-control" type="email" placeholder="Enter the student's email">
             <label asp-for="NewLoan.Email">Email</label>
             <span asp-validation-for="NewLoan.Email" class="text-danger"></span>
         </div>

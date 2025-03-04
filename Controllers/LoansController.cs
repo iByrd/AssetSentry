@@ -63,7 +63,9 @@ namespace AssetSentry.Controllers
             }
             else
             {
-                model.Devices = _context.Devices.ToList();
+                // finally fixed this... server-side validation was not ever working
+                //model.Devices = _context.Devices.ToList();
+                model.NewLoan.Device = _context.Devices.Single(x => x.Id == model.NewLoan.DeviceId);
                 return View(model);
             }
         }
