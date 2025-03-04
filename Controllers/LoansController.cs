@@ -11,8 +11,13 @@ namespace AssetSentry.Controllers
     public class LoansController : Controller
     {
         private AssetSentryContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public LoansController(AssetSentryContext context) => _context = context;
+        public LoansController(AssetSentryContext context, IEmailSender emailSender)
+        {
+            _context = context;
+            _emailSender = emailSender;
+        }
 
         [Authorize]
         public IActionResult LoanList(string searchString)
@@ -93,6 +98,33 @@ namespace AssetSentry.Controllers
             _context.SaveChanges();
             return RedirectToAction("LoanList");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SendLoanReminder(int loanId)
+        {
+            var loan = await _context.Loans.Include(l => l.Device).FirstOrDefaultAsync(l => l.Id == loanId);
+
+            if (loan == null)
+            {
+                return NotFound();
+            }
+
+            string status = loan.EndDate < DateTime.Today ? "Overdue" :
+                            (loan.EndDate == DateTime.Today ? "Due Today" : "Due Soon");
+
+            string emailBody = $@"
+                <h2>Loan Reminder</h2>
+                <p>Hello {loan.Student},</p>
+                <p>Your loan for <b>{loan.Device?.Name}</b> is <b>{status}</b>.</p>
+                <p>Return it by {loan.EndDate.ToShortDateString()} to avoid penalties.</p>
+                <p>Thank you!</p>";
+
+            await _emailSender.SendEmailAsync(loan.Email, $"Loan Reminder: {status}", emailBody);
+
+            TempData["SuccessMessage"] = $"Reminder email sent to {loan.Email}.";
+            return RedirectToAction("LoanList");
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

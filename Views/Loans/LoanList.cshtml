@@ -15,6 +15,11 @@
         </p>
     </form>
 
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
     <table class="table table-dark table-hover" style="border-collapse: separate; border-spacing: 0; width: 100%;">
         <thead style="background-color: #343a40; color: #ffc107;">
             <tr>
@@ -55,6 +60,11 @@
                                     <input type="hidden" name="@nameof(Loan.Id)" value="@loan.Id" />
                                     <button type="submit" class="btn btn-outline-danger fw-semibold d-inline-flex align-items-center py-2 px-3"
                                     onclick="return confirm('Are you sure you want to end this loan?');">End Loan</button>
+                                </form>
+
+                                <form method="post" asp-action="SendLoanReminder">
+                                    <input type="hidden" name="loanId" value="@loan.Id" />
+                                    <button type="submit" class="btn btn-primary fw-semibold d-inline-flex align-items-center py-2 px-3">Send Email</button>
                                 </form>
                             }
 
