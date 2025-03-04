@@ -27,11 +27,18 @@ namespace AssetSentry.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                var foundLoans = loanViewModel.Loans.Where(s => s.Device.Name!.ToUpper().Contains(searchString.ToUpper())
-                || s.Student!.ToUpper().Contains(searchString.ToUpper()) || s.Email!.ToUpper().Contains(searchString.ToUpper())).ToList();
+                searchString = searchString.ToUpper();
+
+                var foundLoans = loanViewModel.Loans.Where(s =>
+                    (s.Device.Name != null && s.Device.Name.ToUpper().Contains(searchString)) ||
+                    (s.Student != null && s.Student.ToUpper().Contains(searchString)) ||
+                    (s.Email != null && s.Email.ToUpper().Contains(searchString)) ||
+                    (s.IsActive ? "ACTIVE" : "CLOSED").Contains(searchString)
+                ).ToList();
 
                 loanViewModel.Loans = foundLoans;
             }
+
 
             return View(loanViewModel);
         }
