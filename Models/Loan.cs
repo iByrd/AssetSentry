@@ -21,5 +21,9 @@ namespace AssetSentry.Models
         public int DeviceId { get; set; }
 
         public Device? Device { get; set; }
+
+        [Required(ErrorMessage = "Email is required.")]
+        [MaxLength(100, ErrorMessage = "Maximum of 50 characters allowed.")]
+        public string Email { get; set; }
     }
 }
