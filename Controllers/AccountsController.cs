@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,8 +15,13 @@ namespace AssetSentry.Controllers
     public class AccountsController : Controller
     {
         private readonly AssetSentryContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public AccountsController(AssetSentryContext context) => _context = context;
+        public AccountsController(AssetSentryContext context, IEmailSender emailSender)
+        {
+            _context = context;
+            _emailSender = emailSender;
+        }
 
         [Authorize(Policy = "AdminOnly")]
         public IActionResult AccountList()
@@ -79,7 +86,36 @@ namespace AssetSentry.Controllers
             }
             return View(model);
         }
-        
+
+        public async Task<IActionResult> SendEmail()
+        {
+            await _emailSender.SendEmailAsync("byrdj7@mail.uc.edu", "AssetSentry Test", "Test 2 from our c# app");
+
+            return View("Login");
+            //string subject = "This is a AssetSentry Test";
+            //string sender = "assetsentry@yahoo.com";
+            //string pass = "";
+            //using(MailMessage messg = new MailMessage(sender, "byrdj7@mail.uc.edu"))
+            //{
+            //    messg.Subject = subject;
+            //    messg.Body = "This is a test that I hope works from our C# app";
+            //    messg.IsBodyHtml = false;
+            //    using(SmtpClient smtp = new SmtpClient())
+            //    {
+            //        System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            //        smtp.Host = "smtp.mail.yahoo.com";
+            //        smtp.EnableSsl = true;
+            //        NetworkCredential cred = new NetworkCredential(sender, pass);
+            //        smtp.UseDefaultCredentials = false;
+            //        smtp.Credentials = cred;
+            //        smtp.Port = 587;
+
+            //        smtp.Send(messg);
+            //    }
+            //}
+            //return View("Login");
+        }
+
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
