@@ -119,11 +119,11 @@ namespace AssetSentry.Controllers
             }
             else if(status == "Due Today")
             {
-                returnSentence = "Return it by the end of today to avoid penalties";
+                returnSentence = "Return it by the end of today to avoid penalties.";
             }
             else
             {
-                returnSentence = $"Return it by {loan.EndDate.ToShortDateString()} to avoid penalties";
+                returnSentence = $"Return it by {loan.EndDate.ToShortDateString()} to avoid penalties.";
             }
 
             string emailBody = $@"
