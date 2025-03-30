@@ -102,6 +102,7 @@ namespace AssetSentry.Controllers
         [HttpPost]
         public async Task<IActionResult> SendLoanReminder(int loanId)
         {
+            string returnSentence;
             var loan = await _context.Loans.Include(l => l.Device).FirstOrDefaultAsync(l => l.Id == loanId);
 
             if (loan == null)
@@ -112,11 +113,24 @@ namespace AssetSentry.Controllers
             string status = loan.EndDate < DateTime.Today ? "Overdue" :
                             (loan.EndDate == DateTime.Today ? "Due Today" : "Due Soon");
 
+            if (status == "Overdue")
+            {
+                returnSentence = "Return it as soon as possible to avoid further penalties.";
+            }
+            else if(status == "Due Today")
+            {
+                returnSentence = "Return it by the end of today to avoid penalties";
+            }
+            else
+            {
+                returnSentence = $"Return it by {loan.EndDate.ToShortDateString()} to avoid penalties";
+            }
+
             string emailBody = $@"
                 <h2>Loan Reminder</h2>
                 <p>Hello {loan.Student},</p>
                 <p>Your loan for <b>{loan.Device?.Name}</b> is <b>{status}</b>.</p>
-                <p>Return it by {loan.EndDate.ToShortDateString()} to avoid penalties.</p>
+                <p>{returnSentence}</p>
                 <p>Thank you!</p>";
 
             await _emailSender.SendEmailAsync(loan.Email, $"Loan Reminder: {status}", emailBody);
