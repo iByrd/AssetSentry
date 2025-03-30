@@ -6,8 +6,6 @@
 <div class="container text-center">
     <h1>@ViewData["Title"]</h1>
 
-    <a role="button" class="btn btn-outline-success fw-semibold my-3">New Loan</a>
-
     <form asp-controller="Loans" asp-action="LoanList" method="get">
         <p>
             <label>Search: <input type="text" name="SearchString" /></label>
@@ -52,7 +50,6 @@
                     }
                     <td style="padding: 10px; text-align: center;">
                         <div class="d-inline-flex gap-2">
-                            <a role="button" class="btn btn-outline-warning fw-semibold d-inline-flex align-items-center py-2 px-3">Edit</a>
                             @* <a role="button" class="btn btn-outline-danger fw-semibold d-inline-flex align-items-center py-2 px-3">End</a> *@
                             @if (loan.IsActive)
                             {
