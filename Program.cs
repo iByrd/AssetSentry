@@ -4,12 +4,14 @@ using AssetSentry.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using AssetSentry;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AssetSentryContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AssetSentryContext") ?? throw new InvalidOperationException("Connection string 'AssetSentryContext' not found.")));
 
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

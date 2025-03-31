@@ -11,8 +11,13 @@ namespace AssetSentry.Controllers
     public class LoansController : Controller
     {
         private AssetSentryContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public LoansController(AssetSentryContext context) => _context = context;
+        public LoansController(AssetSentryContext context, IEmailSender emailSender)
+        {
+            _context = context;
+            _emailSender = emailSender;
+        }
 
         [Authorize]
         public IActionResult LoanList(string searchString)
@@ -27,11 +32,18 @@ namespace AssetSentry.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                var foundLoans = loanViewModel.Loans.Where(s => s.Device.Name!.ToUpper().Contains(searchString.ToUpper())
-                || s.Student!.ToUpper().Contains(searchString.ToUpper())).ToList();
+                searchString = searchString.ToUpper();
+
+                var foundLoans = loanViewModel.Loans.Where(s =>
+                    (s.Device.Name != null && s.Device.Name.ToUpper().Contains(searchString)) ||
+                    (s.Student != null && s.Student.ToUpper().Contains(searchString)) ||
+                    (s.Email != null && s.Email.ToUpper().Contains(searchString)) ||
+                    (s.IsActive ? "ACTIVE" : "CLOSED").Contains(searchString)
+                ).ToList();
 
                 loanViewModel.Loans = foundLoans;
             }
+
 
             return View(loanViewModel);
         }
@@ -63,7 +75,9 @@ namespace AssetSentry.Controllers
             }
             else
             {
-                model.Devices = _context.Devices.ToList();
+                // finally fixed this... server-side validation was not ever working
+                //model.Devices = _context.Devices.ToList();
+                model.NewLoan.Device = _context.Devices.Single(x => x.Id == model.NewLoan.DeviceId);
                 return View(model);
             }
         }
@@ -84,6 +98,47 @@ namespace AssetSentry.Controllers
             _context.SaveChanges();
             return RedirectToAction("LoanList");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SendLoanReminder(int loanId)
+        {
+            string returnSentence;
+            var loan = await _context.Loans.Include(l => l.Device).FirstOrDefaultAsync(l => l.Id == loanId);
+
+            if (loan == null)
+            {
+                return NotFound();
+            }
+
+            string status = loan.EndDate < DateTime.Today ? "Overdue" :
+                            (loan.EndDate == DateTime.Today ? "Due Today" : "Due Soon");
+
+            if (status == "Overdue")
+            {
+                returnSentence = "Return it as soon as possible to avoid further penalties.";
+            }
+            else if(status == "Due Today")
+            {
+                returnSentence = "Return it by the end of today to avoid penalties.";
+            }
+            else
+            {
+                returnSentence = $"Return it by {loan.EndDate.ToShortDateString()} to avoid penalties.";
+            }
+
+            string emailBody = $@"
+                <h2>Loan Reminder</h2>
+                <p>Hello {loan.Student},</p>
+                <p>Your loan for <b>{loan.Device?.Name}</b> is <b>{status}</b>.</p>
+                <p>{returnSentence}</p>
+                <p>Thank you!</p>";
+
+            await _emailSender.SendEmailAsync(loan.Email, $"Loan Reminder: {status}", emailBody);
+
+            TempData["SuccessMessage"] = $"Reminder email sent to {loan.Email}.";
+            return RedirectToAction("LoanList");
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

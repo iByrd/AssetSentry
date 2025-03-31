@@ -5,7 +5,7 @@
     <h2>Create Loan for @Model.NewLoan.Device.Name</h2>
     <hr />
 
-    <div asp-validation-summary="All" class="text-danger"></div>
+    @* <div asp-validation-summary="All" class="text-danger"></div> *@
 
     <form asp-action="AddLoan" method="post">
 
@@ -22,13 +22,21 @@
         </div>
 
         <div class="form-floating mb-3">
-            <input asp-for="NewLoan.StartDate" class="form-control" type="date" value="@DateTime.Today">
+            <input asp-for="NewLoan.Email" class="form-control" type="email" placeholder="Enter the student's email">
+            <label asp-for="NewLoan.Email">Email</label>
+            <span asp-validation-for="NewLoan.Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="NewLoan.StartDate" class="form-control" type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                value="@DateTime.Today">
             <label asp-for="NewLoan.StartDate">Start Date</label>
             <span asp-validation-for="NewLoan.StartDate" class="text-danger"></span>
         </div>
 
         <div class="form-floating mb-3">
-            <input asp-for="NewLoan.EndDate" class="form-control" type="date" value="@DateTime.Today">
+            <input asp-for="NewLoan.EndDate" class="form-control" type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                value="@DateTime.Today">
             <label asp-for="NewLoan.EndDate">End Date</label>
             <span asp-validation-for="NewLoan.EndDate" class="text-danger"></span>
         </div>
