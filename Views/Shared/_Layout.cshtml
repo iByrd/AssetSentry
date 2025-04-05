@@ -12,10 +12,14 @@
 <body data-bs-theme="dark" class="text-white">
 
     <div class="top-row ps-3 navbar navbar-dark border-bottom">
-        <div class="container-fluid">
+        <div class="container-fluid d-flex flex-row">
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                <img src="@Url.Content("~/Images/WhiteLogoTransparent.png")" alt="Asset Sentry" width="60" height="60" asp-action="Index" />
-                AssetSentry
+                <div class="d-flex flex-row">
+                    <img src="@Url.Content("~/Images/WhiteLogoTransparent.png")" alt="Asset Sentry" width="60" height="60" asp-action="Index" />
+                    <div class="align-self-center">
+                        <h3>Asset Sentry</h3>
+                    </div>
+                </div>
             </a>
             <div class="float-right ">
                 @await Html.PartialAsync("_LoginPartial")
