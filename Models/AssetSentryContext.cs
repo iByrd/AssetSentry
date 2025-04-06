@@ -14,6 +14,12 @@ namespace AssetSentry.Models
 
         public DbSet<UserAccount> UserAccounts { get; set; }
 
+        public DbSet<Log> Logs { get; set; }
+
+        public DbSet<Action> Actions { get; set; }
+
+        public DbSet<ObjectType> ObjectType { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -32,6 +38,19 @@ namespace AssetSentry.Models
                 new Status { StatusId = "available", Name = "Available" },
                 new Status { StatusId = "rented", Name = "Rented" },
                 new Status { StatusId = "overdue", Name = "Overdue" }
+            );
+
+            modelBuilder.Entity<Action>().HasData(
+                new Action { ActionId = "add", Name = "Add" },
+                new Action { ActionId = "edit", Name = "Edit" },
+                new Action { ActionId = "remove", Name = "Remove" },
+                new Action { ActionId = "end", Name = "End" }
+            );
+
+            modelBuilder.Entity<ObjectType>().HasData(
+                new ObjectType { ObjectTypeId = "status", Name = "Status" },
+                new ObjectType { ObjectTypeId = "loan", Name = "Loan" },
+                new ObjectType { ObjectTypeId = "account", Name = "Account" }
             );
         }
     }

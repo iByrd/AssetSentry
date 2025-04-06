@@ -51,6 +51,7 @@ namespace AssetSentry.Controllers
             return sb.ToString();
         }
 
+        //Source: https://www.youtube.com/watch?v=712G-iQ1zzg
         [HttpPost]
         public IActionResult Registration(RegistrationViewModel model)
         {
