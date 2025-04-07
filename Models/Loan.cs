@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AssetSentry.Models
 {
@@ -18,6 +19,7 @@ namespace AssetSentry.Models
         public bool IsActive { get; set; }
 
         [Required]
+        [ForeignKey("Device")]
         public int DeviceId { get; set; }
 
         public Device? Device { get; set; }
