@@ -40,7 +40,7 @@
                             <form asp-action="DeleteConfirmed" method="post">
                                 <input type="hidden" name="@nameof(Device.Id)" value="@device.Id" />
                                 <button type="submit" class="btn btn-outline-danger fw-semibold d-inline-flex align-items-center py-2 px-3"
-                                    onclick="return confirm('Are you sure you want to end this loan?');">Remove</button>
+                                    onclick="return confirm('Are you sure you want to remove this device and any loans associated with it?');">Remove</button>
                             </form>
                             @if (device.Status.Name == "Available")
                             {
