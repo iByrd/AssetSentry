@@ -8,13 +8,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AssetSentry.styles.css" asp-append-version="true" />
+    <link rel="icon" href="@Url.Content("~/Images/LogoTransparent.png")" />
 </head>
 <body data-bs-theme="dark" class="text-white">
 
     <div class="top-row ps-3 navbar navbar-dark border-bottom">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">AssetSentry</a>
-            <div class="float-right">
+        <div class="container-fluid d-flex flex-row">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <div class="d-flex flex-row">
+                    <img src="@Url.Content("~/Images/WhiteLogoTransparent.png")" alt="Asset Sentry" width="60" height="60" asp-action="Index" />
+                    <div class="align-self-center">
+                        <h3>Asset Sentry</h3>
+                    </div>
+                </div>
+            </a>
+            <div class="float-right ">
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
