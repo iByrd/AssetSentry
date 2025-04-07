@@ -17,6 +17,6 @@ namespace AssetSentry.Models
 
         public Status? Status { get; set; }
 
-        public Loan? Loan { get; set; }
+        public ICollection<Loan>? Loan { get; set; }
     }
 }
